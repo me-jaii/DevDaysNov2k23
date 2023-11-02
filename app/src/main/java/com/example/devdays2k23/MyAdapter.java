@@ -38,29 +38,34 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         ArticleModel article = articleList.get(position);
-        holder.titleTextView.setText(article.getTitle());
+        if(article.getTitle().isEmpty()){
 
-        long currentTimeMillis = System.currentTimeMillis();
-        long publishedTimeMillis = parseDateTime(article.getPublishedAt());
-        CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(publishedTimeMillis, currentTimeMillis, DateUtils.MINUTE_IN_MILLIS);
+        }
+        else {
+            holder.titleTextView.setText(article.getTitle());
 
-        holder.publishedTextView.setText(timeAgo.toString());
-        holder.sourceTextView.setText(article.getSource().getName());
-        Picasso.get().load(article.getUrlToImage())
-                .error(R.drawable.no_picture)
-                .placeholder(R.drawable.no_picture)
-                .into(holder.imageView);
+            long currentTimeMillis = System.currentTimeMillis();
+            long publishedTimeMillis = parseDateTime(article.getPublishedAt());
+            CharSequence timeAgo = DateUtils.getRelativeTimeSpanString(publishedTimeMillis, currentTimeMillis, DateUtils.MINUTE_IN_MILLIS);
+
+            holder.publishedTextView.setText(timeAgo.toString());
+            holder.sourceTextView.setText(article.getSource().getName());
+            Picasso.get().load(article.getUrlToImage())
+                    .error(R.drawable.no_picture)
+                    .placeholder(R.drawable.no_picture)
+                    .into(holder.imageView);
+        }
 
         holder.itemView.setOnClickListener((v -> {
-            Intent intent = new Intent(v.getContext(),NewsDetailsActivity.class);
-            Bundle bundle= new Bundle();
-            bundle.putString("url",article.getUrl());
+            Intent intent = new Intent(v.getContext(), NewsDetailsActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putString("url", article.getUrl());
 //            intent.putExtra("url",article.getUrl());
             bundle.putString("urlToPhoto", article.getUrlToImage());
             bundle.putString("title", article.getTitle());
             bundle.putString("author", article.getAuthor());
-            bundle.putString("content",article.getDescription());
-            bundle.putString("dateTime",article.getPublishedAt());
+            bundle.putString("content", article.getDescription());
+            bundle.putString("dateTime", article.getPublishedAt());
             intent.putExtras(bundle);
             v.getContext().startActivity(intent);
         }));
