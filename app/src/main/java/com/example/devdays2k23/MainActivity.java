@@ -5,11 +5,15 @@ import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.devdays2k23.struct.ArticleModel;
+import com.example.devdays2k23.struct.ResponseModel;
 import com.google.android.material.progressindicator.LinearProgressIndicator;
 import com.kwabenaberko.newsapilib.NewsApiClient;
 import com.kwabenaberko.newsapilib.models.Article;
@@ -19,13 +23,18 @@ import com.kwabenaberko.newsapilib.models.response.ArticleResponse;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
 
     RecyclerView recyclerView;
-    List<Article> articleList = new ArrayList<>();
+    List<ArticleModel> articleList = new ArrayList<>();
     MyAdapter adapter;
     LinearProgressIndicator progressIndicator;
     Button btn1,btn2,btn3,btn4,btn5,btn6,btn7;
+    private static String apiKey="d66c7c2d16ad4387bb2c8ad0ebb194f3";
     SearchView searchView;
 
     @Override
@@ -54,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                getNews("GENERAL",query);
+                getNews("GENERAL",query,"en");
                 return true;
             }
 
@@ -66,7 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         setupRecyclerView();
-        getNews("GENERAL",null);
+        getNews("GENERAL",null,"en");
     }
     void setupRecyclerView(){
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -82,41 +91,59 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    void getNews(String category,String query){
-        changeInProgress(true);
-        NewsApiClient newsApiClient = new NewsApiClient("d66c7c2d16ad4387bb2c8ad0ebb194f3");
-        newsApiClient.getTopHeadlines(
-                new TopHeadlinesRequest.Builder()
-                        .language("en")
-                        .category(category)
-                        .q(query)
-                        .build(),
-                new NewsApiClient.ArticlesResponseCallback() {
-                    @Override
-                    public void onSuccess(ArticleResponse response) {
+//    void getNews(String category,String query){
+//        changeInProgress(true);
+//        NewsApiClient newsApiClient = new NewsApiClient("d66c7c2d16ad4387bb2c8ad0ebb194f3");
+//        newsApiClient.getTopHeadlines(
+//                new TopHeadlinesRequest.Builder()
+//                        .language("en")
+//                        .category(category)
+//                        .q(query)
+//                        .build(),
+//                new NewsApiClient.ArticlesResponseCallback() {
+//                    @Override
+//                    public void onSuccess(ArticleResponse response) {
+//
+//                        runOnUiThread(()->{
+//                            changeInProgress(false);
+//                            articleList = response.getArticles();
+//                            adapter.updateData(articleList);
+//                            adapter.notifyDataSetChanged();
+//                        });
+//
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Throwable throwable) {
+//                        Log.i("GOT Failure",throwable.getMessage());
+//                    }
+//                }
+//        );
+//    }
 
-                        runOnUiThread(()->{
-                            changeInProgress(false);
-                            articleList = response.getArticles();
-                            adapter.updateData(articleList);
-                            adapter.notifyDataSetChanged();
-                        });
+    public void getNews(String category, String q, String language) {
+        MyRetro.getApi().getLatest(category,q,language,apiKey).enqueue(new Callback<ResponseModel>() {
+            @Override
+            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+                List<ArticleModel> articleList1 = response.body().getArticles();
+//                articleList.addAll(articleList1);
+                MyAdapter adapter= new MyAdapter(articleList1);
+                recyclerView.setAdapter(adapter);
+            }
 
-                    }
+            @Override
+            public void onFailure(Call<ResponseModel> call, Throwable t) {
+                Toast.makeText(MainActivity.this, "No data Available", Toast.LENGTH_SHORT).show();
 
-                    @Override
-                    public void onFailure(Throwable throwable) {
-                        Log.i("GOT Failure",throwable.getMessage());
-                    }
-                }
-        );
+            }
+        });
     }
 
     @Override
     public void onClick(View view) {
         Button btn = (Button) view;
         String category = btn.getText().toString();
-        getNews(category,null);
+        getNews(category,null,"em");
     }
 }
 

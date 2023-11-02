@@ -1,6 +1,7 @@
 package com.example.devdays2k23;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.devdays2k23.struct.ArticleModel;
 import com.kwabenaberko.newsapilib.models.Article;
 import com.squareup.picasso.Picasso;
 
@@ -22,8 +24,8 @@ import java.util.Locale;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
 
-    List<Article> articleList;
-    MyAdapter(List<Article> articleList){
+    List<ArticleModel> articleList;
+    MyAdapter(List<ArticleModel> articleList){
         this.articleList = articleList;
     }
 
@@ -35,7 +37,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
-        Article article = articleList.get(position);
+        ArticleModel article = articleList.get(position);
         holder.titleTextView.setText(article.getTitle());
 
         long currentTimeMillis = System.currentTimeMillis();
@@ -50,14 +52,22 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener((v -> {
-            Intent intent = new Intent(v.getContext(),NewsActivity.class);
-            intent.putExtra("url",article.getUrl());
+            Intent intent = new Intent(v.getContext(),NewsDetailsActivity.class);
+            Bundle bundle= new Bundle();
+            bundle.putString("url",article.getUrl());
+//            intent.putExtra("url",article.getUrl());
+            bundle.putString("urlToPhoto", article.getUrlToImage());
+            bundle.putString("title", article.getTitle());
+            bundle.putString("author", article.getAuthor());
+            bundle.putString("content",article.getDescription());
+            bundle.putString("dateTime",article.getPublishedAt());
+            intent.putExtras(bundle);
             v.getContext().startActivity(intent);
         }));
 
     }
 
-    void updateData(List<Article> data){
+    void updateData(List<ArticleModel> data){
         articleList.clear();
         articleList.addAll(data);
     }
