@@ -122,13 +122,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    }
 
     public void getNews(String category, String q, String language) {
-        MyRetro.getApi().getLatest(category,q,language,apiKey).enqueue(new Callback<ResponseModel>() {
+        final Api api= MyRetro.getRetro().create(Api.class);
+        Call<ResponseModel> call = api.getLatest(category,q,language,apiKey);
+        call.enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
                 List<ArticleModel> articleList1 = response.body().getArticles();
-//                articleList.addAll(articleList1);
-                MyAdapter adapter= new MyAdapter(articleList1);
-                recyclerView.setAdapter(adapter);
+                if (articleList1.size()>0) {
+                    adapter.updateData(articleList1);
+                    adapter.notifyDataSetChanged();
+                }
+                else{
+                    Toast.makeText(MainActivity.this, "No data", Toast.LENGTH_SHORT).show();
+                }
+
             }
 
             @Override
@@ -136,7 +143,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this, "No data Available", Toast.LENGTH_SHORT).show();
 
             }
+
         });
+//        MyRetro.getApi().getLatest(category,q,language,apiKey).enqueue(new Callback<ResponseModel>() {
+//            @Override
+//            public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
+//                List<ArticleModel> articleList1 = response.body().getArticles();
+//                final MyAdapter adapter = new MyAdapter(articleList1);
+//                articleList.addAll(articleList1);
+//                MyAdapter adapter= new MyAdapter(articleList1);
+//                recyclerView.setAdapter(adapter);
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<ResponseModel> call, Throwable t) {
+//                Toast.makeText(MainActivity.this, "No data Available", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
     }
 
     @Override

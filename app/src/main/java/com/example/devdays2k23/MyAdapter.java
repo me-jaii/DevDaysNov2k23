@@ -25,7 +25,7 @@ import java.util.Locale;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
 
     List<ArticleModel> articleList;
-    MyAdapter(List<ArticleModel> articleList){
+    public MyAdapter(List<ArticleModel> articleList){
         this.articleList = articleList;
     }
 
