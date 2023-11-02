@@ -21,12 +21,14 @@
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginHorizontal="25dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:background="@drawable/searchbar"
+        android:background="@drawable/rectangle_5"
         app:queryHint="Search news"
+        app:iconifiedByDefault="false"
         
         />
 
