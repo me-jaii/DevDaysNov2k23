@@ -4,8 +4,8 @@ import java.util.List;
 
 public class ResponseModel {
     private String status;
-    private int totalResukts;
-    private List<ArticleModel> articleModels =null;
+    private int totalResults;
+    private List<ArticleModel> articles = null;
 
     public String getStatus() {
         return status;
@@ -15,19 +15,19 @@ public class ResponseModel {
         this.status = status;
     }
 
-    public int getTotalResukts() {
-        return totalResukts;
+    public int getTotalResults() {
+        return totalResults;
     }
 
-    public void setTotalResukts(int totalResukts) {
-        this.totalResukts = totalResukts;
+    public void setTotalResults(int totalResults) {
+        this.totalResults = totalResults;
     }
 
     public List<ArticleModel> getArticles() {
-        return articleModels;
+        return articles;
     }
 
     public void setArticles(List<ArticleModel> articleModels) {
-        this.articleModels = articleModels;
+        this.articles = articles;
     }
 }

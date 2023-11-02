@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     public void getNews(String category, String q, String language) {
         final Api api= MyRetro.getRetro().create(Api.class);
-        Call<ResponseModel> call = api.getLatest(category,q,language,apiKey);
+        Call<ResponseModel> call = api.getLatest(language,category,q,apiKey);
         call.enqueue(new Callback<ResponseModel>() {
             @Override
             public void onResponse(Call<ResponseModel> call, Response<ResponseModel> response) {
@@ -131,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (articleList1.size()>0) {
                     adapter.updateData(articleList1);
                     adapter.notifyDataSetChanged();
+                    changeInProgress(false);
                 }
                 else{
                     Toast.makeText(MainActivity.this, "No data", Toast.LENGTH_SHORT).show();
