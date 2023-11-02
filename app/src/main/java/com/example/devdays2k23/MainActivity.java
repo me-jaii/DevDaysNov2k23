@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Button btn = (Button) view;
         String category = btn.getText().toString();
-        getNews(category,null,"em");
+        getNews(category,null,"en");
     }
 }
 
