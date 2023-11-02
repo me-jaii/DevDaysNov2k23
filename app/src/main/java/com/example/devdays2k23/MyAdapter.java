@@ -38,9 +38,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull NewsViewHolder holder, int position) {
         ArticleModel article = articleList.get(position);
-        if(article.getTitle().isEmpty()){
-
-        }
+        if(article.getUrl().toString().equals("https://removed.com")){
+            holder.itemView.setVisibility(View.GONE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(0, 0));        }
         else {
             holder.titleTextView.setText(article.getTitle());
 
@@ -54,6 +54,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
                     .error(R.drawable.no_picture)
                     .placeholder(R.drawable.no_picture)
                     .into(holder.imageView);
+            holder.itemView.setVisibility(View.VISIBLE);
+            holder.itemView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         }
 
         holder.itemView.setOnClickListener((v -> {
