@@ -39,6 +39,7 @@ public class NewsDetailsActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(NewsDetailsActivity.this, MainActivity.class);
                 startActivity(intent);
+                finish();
             }
         });
         Picasso.get().load(url2P)
