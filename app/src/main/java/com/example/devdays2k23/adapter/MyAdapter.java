@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.devdays2k23.NewsActivity;
 import com.example.devdays2k23.NewsDetailsActivity;
 import com.example.devdays2k23.R;
 import com.example.devdays2k23.struct.ArticleModel;
@@ -60,16 +61,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
         }
 
         holder.itemView.setOnClickListener((v -> {
-            Intent intent = new Intent(v.getContext(), NewsDetailsActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("url", article.getUrl());
-//            intent.putExtra("url",article.getUrl());
-            bundle.putString("urlToPhoto", article.getUrlToImage());
-            bundle.putString("title", article.getTitle());
-            bundle.putString("author", article.getAuthor());
-            bundle.putString("content", article.getDescription());
-            bundle.putString("dateTime", article.getPublishedAt());
-            intent.putExtras(bundle);
+            Intent intent = new Intent(v.getContext(), NewsActivity.class);
+            intent.putExtra("url",article.getUrl());
+//            Bundle bundle = new Bundle();
+//            bundle.putString("url", article.getUrl());
+//            bundle.putString("urlToPhoto", article.getUrlToImage());
+//            bundle.putString("title", article.getTitle());
+//            bundle.putString("author", article.getAuthor());
+//            bundle.putString("content", article.getDescription());
+//            bundle.putString("dateTime", article.getPublishedAt());
+//            intent.putExtras(bundle);
             v.getContext().startActivity(intent);
         }));
 
