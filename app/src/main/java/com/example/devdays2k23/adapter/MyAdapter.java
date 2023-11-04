@@ -1,4 +1,4 @@
-package com.example.devdays2k23;
+package com.example.devdays2k23.adapter;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.devdays2k23.NewsDetailsActivity;
+import com.example.devdays2k23.R;
 import com.example.devdays2k23.struct.ArticleModel;
-import com.kwabenaberko.newsapilib.models.Article;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -74,7 +75,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.NewsViewHolder> {
 
     }
 
-    void updateData(List<ArticleModel> data){
+    public void updateData(List<ArticleModel> data){
         articleList.clear();
         articleList.addAll(data);
     }

@@ -5,5 +5,7 @@
     <string name="all_the_lat">All the latest news can be read and \nlistened to just by one click</string>
     <string name="next">Next</string>
     <string name="search">Search</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
 
